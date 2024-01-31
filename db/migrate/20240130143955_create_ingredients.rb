@@ -1,7 +1,9 @@
 class CreateIngredients < ActiveRecord::Migration[7.1]
   def change
     create_table :ingredients do |t|
-      t.text :ingredients_details, array: true, default: [], null: false
+      t.string :ingredients_name
+      t.integer :quantity
+      t.string :unit
       t.references :meal, null: false, foreign_key: true
 
       t.timestamps
