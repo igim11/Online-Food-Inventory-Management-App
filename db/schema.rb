@@ -9,10 +9,30 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
-ActiveRecord::Schema[7.1].define(version: 2024_01_31_114401) do
 
+ActiveRecord::Schema[7.1].define(version: 2024_01_31_114232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string "ingredients_name"
+    t.integer "quantity"
+    t.string "unit"
+    t.bigint "meal_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meal_id"], name: "index_ingredients_on_meal_id"
+  end
+
+  create_table "meals", force: :cascade do |t|
+    t.string "meals_name"
+    t.text "meals_description"
+    t.text "meals_directions"
+    t.text "meals_nutritions"
+    t.integer "meals_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "orders", force: :cascade do |t|
     t.decimal "total_bill"
@@ -32,5 +52,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_114401) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-end
 
+  add_foreign_key "ingredients", "meals"
+end
