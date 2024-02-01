@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root 'orders#new'
 
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
   resources :orders
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
