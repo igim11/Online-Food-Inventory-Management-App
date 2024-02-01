@@ -5,4 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   attr_accessor :admin_passcode
+  has_many :meals
 end

@@ -1,5 +1,6 @@
 require_relative '../api/mealdb'
 class MealsController < ApplicationController
+before_action :authenticate_user!
 
   def find_meal
     @meal_name = params[:search]
@@ -21,9 +22,8 @@ class MealsController < ApplicationController
   end
 
   def create
-    @meal = Meal.new(meal_params)
+    @meal = current_user.meals.new(meal_params)
     if @meal.save
-      redirect_to @meal, notice: 'Meal was successfully created.'
       redirect_to '/'
     else
       render :new
@@ -33,7 +33,7 @@ class MealsController < ApplicationController
   private
 
   def meal_params
-    params.require(:meal).permit(:meals_name, :meals_description, :meals_directions, :meals_nutritions, :meals_price)
+    params.permit(:meals_name, :meals_description, :meals_directions, :meals_nutritions, :meals_price)
   end
 
 end
