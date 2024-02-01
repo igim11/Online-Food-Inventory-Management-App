@@ -4,7 +4,7 @@
 <% end %>
 <h1>ADD New Meal</h1>
 
-<%= form_with model: @meals, url: find_meal_path do |form| %>
+<%= form_with model: @meal, url: meals_path do |form| %>
   <div>
     <%= form.label :meals_name %>
     <%= form.text_field :meals_name %>
