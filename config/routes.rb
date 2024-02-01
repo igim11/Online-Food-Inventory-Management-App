@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root 'orders#new'
+  get '/meals', to: "meals#find_meal", as: "find_meal"
+  get '/meal_list', to: "meals#meals_category", as: "meals_data"
+  post '/meals', to: "meals#create" 
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'
@@ -14,4 +17,3 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 end
-
