@@ -1,0 +1,73 @@
+<div class="container mx-auto">
+  <h1 class="text-3xl font-bold mb-8">ADD New Meal</h1>
+
+  <%= form_with model: @meal, url: meals_path do |form| %>
+    <div class="mb-4">
+      <%= form.label :meals_name, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_field :meals_name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :meals_description, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_area :meals_description, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :meals_price, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.number_field :meals_price, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+<div id="directions">
+    <h1>Directions</h1>
+    <% @meal.meals_directions.each_with_index do |direction, index| %>
+      <div class="mb-4">
+        <%= form.text_field "meals_directions[#{index}]", value: direction, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+    <% end %>
+  </div>
+  <%= button_tag "Add More Direction", id: "add-direction-btn" %>
+
+  <div id="nutritions">
+    <h1>Nutritions</h1>
+    <% @meal.meals_nutritions.each_with_index do |nutrition, index| %>
+      <div class="mb-4">
+        <%= form.text_field "meals_nutritions[#{index}]", value: nutrition, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+    <% end %>
+  </div>
+  <%= button_tag "Add More Nutritions", id: "add-nutritions-btn" %>
+
+    <div class="mb-4">
+      <%= form.submit class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const addDirectionBtn = document.getElementById('add-direction-btn');
+  const directionsContainer = document.getElementById('directions');
+  const addNutritionsBtn = document.getElementById('add-nutritions-btn');
+  const nutritionsContainer = document.getElementById('nutritions');
+  let directionIndex = 0;
+  let nutritionIndex = 0;
+
+  addDirectionBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    const newDirectionField = document.createElement('div');
+    newDirectionField.innerHTML = `<input type="text" name="meal[meals_directions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">`;
+    directionsContainer.appendChild(newDirectionField);
+    directionIndex++;
+  });
+
+  addNutritionsBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    const newNutritionField = document.createElement('div');
+    newNutritionField.innerHTML = `<input type="text" name="meal[meals_nutritions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">`;
+    nutritionsContainer.appendChild(newNutritionField);
+    nutritionIndex++;
+  });
+});
+
+</script>
+
