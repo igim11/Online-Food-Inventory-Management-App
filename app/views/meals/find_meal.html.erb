@@ -1,36 +1,14 @@
-<%= form_tag(find_meal_url(format: :json), method: :get, class: "flex items-center") do %>
+<%= form_tag(find_meal_url, method: :get, class: "flex items-center") do %>
   <%= text_field_tag :search, @meal_name, class: "border rounded-md px-2 py-1", placeholder: "Search for anything..." %>
   <%= submit_tag "Search", class: "bg-blue-500 ml-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" %>
 <% end %>
-<h1>ADD New Meal</h1>
+<button><%= link_to "ADD MEAL", add_meal_path%></button>
 
-<%= form_with model: @meal, url: meals_path do |form| %>
-  <div>
-    <%= form.label :meals_name %>
-    <%= form.text_field :meals_name %>
-  </div>
 
-  <div>
-    <%= form.label :meals_description %>
-    <%= form.text_area :meals_description %>
-  </div>
 
-  <div>
-    <%= form.label :meals_directions %>
-    <%= form.text_area :meals_directions %>
-  </div>
-
-  <div>
-    <%= form.label :meals_nutritions %>
-    <%= form.text_area :meals_nutritions %>
-  </div>
-
-  <div>
-    <%= form.label :meals_price %>
-    <%= form.number_field :meals_price %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+<% @list["meals"].each do |meals|%>
+  <img class="w-20" src=" <%= meals["strMealThumb"] %>" alt="">
+  <%= meals["strMeal"] %> <br>
+   <%= meals["strCategory"] %> <br>
+    <%= meals["strInstructions"] %> <br>
+<%end%>

@@ -27,9 +27,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_153449) do
   create_table "meals", force: :cascade do |t|
     t.string "meals_name"
     t.text "meals_description"
-    t.text "meals_directions"
-    t.text "meals_nutritions"
     t.integer "meals_price"
+    t.text "meals_directions", default: [], array: true
+    t.text "meals_nutritions", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
