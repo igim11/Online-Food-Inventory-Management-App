@@ -2,10 +2,7 @@
   class MealsController < ApplicationController
   before_action :authenticate_user!
     def all_meals
-      if current_user.admin == true
-        @all_meals = Meal.all
-      else
-      end
+        @all_meals = current_user.meals
     end
 
     def meal_byletter
