@@ -1,1 +1,37 @@
 <h1>Welcome to the menu!</h1>
+
+<%= form_with(model: @order) do |form| %>
+    <% if @order.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(@order.errors.count, "error") %> prohibited this @order from being saved:</h2>
+  
+        <ul>
+          <% @order.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <% @meals.each do |meal| %>
+        <div class="meal">
+          <div class="meal-details">
+            <h4><%= meal.meals_name %></h4>
+            <p>Price: <%= meal.meals_price %></p>
+          </div>
+          <div class="quantity-input">
+            <%= form.fields_for :order_items, OrderItem.new do |order_item_fields| %>
+              <%= order_item_fields.hidden_field :meal_id, value: meal.id %>
+              <%= order_item_fields.hidden_field :order_id, value: @order.id %>
+              <%= order_item_fields.label :quantity, "Quantity:" %>
+              <%= order_item_fields.number_field :quantity, min: 0 %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+    <div class="field mb3">
+        <%= form.number_field :user_id, value: current_user.id, class:"form-control", type: :hidden %>
+    </div>
+      <%= form.submit "Place Order" %>
+  <% end %>
