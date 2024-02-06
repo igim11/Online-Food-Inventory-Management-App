@@ -1,6 +1,13 @@
   require_relative '../api/mealdb'
   class MealsController < ApplicationController
   before_action :authenticate_user!
+    def all_meals
+      if current_user.admin == true
+        @all_meals = Meal.all
+      else
+      end
+    end
+
     def meal_byletter
       meal_db = Mealdb.new
       @list = meal_db.mealbyletter
@@ -19,6 +26,7 @@
     end
 
     def add_meal
+      all_meals
       @meal = Meal.new
     end
 
@@ -37,7 +45,7 @@
     private
 
     def meal_params
-      params.require(:meal).permit!
+      params.require(:meal).permit(:meals_name, :meals_description, :meals_price,  meals_directions: [], meals_nutritions: [] )
     end
 
   end

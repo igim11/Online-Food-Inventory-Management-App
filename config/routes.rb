@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get '/meal_list', to: "meals#meals_category", as: "meals_data"
   get '/add_meals', to: "meals#add_meal", as: "add_meal"
   post '/meals', to: "meals#create"
+  get '/add_ingredients/:meal_id', to: "ingredients#add", as: "add_ingredients"
+  post '/add_ingredients/:meal_id', to: "ingredients#create", as: "create_ingredients"
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'
