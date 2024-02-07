@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
-  resources :orders
+  resources :orders, only: [:index, :create]
   get '/orders', to: 'orders#history'
   get '/orders/new', to: 'orders#menu'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
