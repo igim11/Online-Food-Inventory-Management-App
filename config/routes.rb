@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   post '/meals', to: "meals#create"
   get '/add_ingredients/:meal_id', to: "ingredients#add", as: "add_ingredients"
   post '/add_ingredients/:meal_id', to: "ingredients#create", as: "create_ingredients"
-
+  post '/meals/add_meals_fromAPI', to: 'meals#add_meals_fromAPI'
+  
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }

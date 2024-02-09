@@ -2,13 +2,96 @@
   <%= text_field_tag :search, @meal_name, class: "border rounded-md px-2 py-1", placeholder: "Search for anything..." %>
   <%= submit_tag "Search", class: "bg-blue-500 ml-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" %>
 <% end %>
-<button><%= link_to "ADD MEAL", add_meal_path%></button>
+<button class="bg-blue-500 ml-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"><%= link_to "ADD MEAL MANUALLY", add_meal_path%></button>
 
 
+<% @list["meals"].each do |meal| %>
+  <div class="meal">
+    <img class="w-20" src="<%= meal["strMealThumb"] %>" alt="">
+    <h3><%= meal["strMeal"] %></h3>
+    <p><%= meal["strCategory"] %></p>
+    <p><%= meal["strInstructions"] %></p>
+    
+    <% (1..20).each do |i| %>
+      <% ingredient = meal["strIngredient#{i}"] %>
+      <% measure = meal["strMeasure#{i}"] %>
+      <% next if ingredient.blank? || measure.blank? %>
+      <% value = measure.match(/\d+\.?\d*/) %>
+      <% unit = measure.match(/[a-zA-Z]+/) %>
+      <p><%= "#{ingredient} - #{value} #{unit}" %></p>
+    <% end %>
+    
+    <button class="add-meal-btn" data-meal="<%= meal.to_json %>">Add Meal</button>
+  </div>
+<% end %>
 
-<% @list["meals"].each do |meals|%>
-  <img class="w-20" src=" <%= meals["strMealThumb"] %>" alt="">
-  <%= meals["strMeal"] %> <br>
-   <%= meals["strCategory"] %> <br>
-    <%= meals["strInstructions"] %> <br>
-<%end%>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const addMealButtons = document.querySelectorAll(".add-meal-btn");
+
+  addMealButtons.forEach(button => {
+    button.addEventListener("click", (event) => {
+      const mealData = JSON.parse(event.target.dataset.meal);
+      addMealAndIngredients(mealData);
+    });
+  });
+
+  function addMealAndIngredients(mealData) {
+    // Extract meal details from mealData
+    const mealParams = {
+      meals_name: mealData.strMeal,
+      meals_description: mealData.strCategory,
+      meals_directions: mealData.strInstructions
+    };
+    
+    // Extract ingredients from mealData
+      const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = mealData[`strIngredient${i}`];
+      const measure = mealData[`strMeasure${i}`];
+      if (ingredient && measure) {
+        const value = measure.match(/\d+\.?\d*/);
+        const unit = measure.match(/[a-zA-Z]+/);
+        ingredients.push({
+          ingredients_name: ingredient,
+          quantity: value ? value[0] : "",
+          unit: unit ? unit[0] : "pcs " // Use an empty string if unit is not defined
+        });
+      }
+    }
+
+    // Construct the payload for the POST request
+    const payload = {
+      meal: mealParams,
+      ingredients: ingredients
+    };
+
+    // Get the CSRF token from the meta tag in your HTML layout
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Construct the headers with the CSRF token
+    const headers = {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrfToken
+    };
+
+    // Send the POST request with the headers
+    fetch("/meals/add_meals_fromAPI", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(payload)
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log("Meal added successfully");
+      } else {
+        console.error("Failed to add meal");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  }
+});
+
+</script>
