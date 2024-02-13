@@ -18,7 +18,8 @@
       <%= form.number_field :meals_price, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
-<div id="directions">
+<div class="grid">
+  <div id="directions">
     <h1>Directions</h1>
     <input type="text" name="meal[meals_directions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     <% @meal.meals_directions.each_with_index do |direction, index| %>
@@ -27,9 +28,10 @@
       </div>
     <% end %>
   </div>
-  <%= button_tag "Add More Direction", id: "add-direction-btn" %>
-
-  <div id="nutritions">
+   <span id ="add-direction-btn" class="cursor-pointer bg-sky-500 p-2 mt-1 w-[10%] rounded-lg mb-10 text-center">ADD DIRECTION</span>
+</div>
+ <div class="grid">
+   <div id="nutritions">
     <h1>Nutritions</h1>
     <input type="text" name="meal[meals_nutritions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     <% @meal.meals_nutritions.each_with_index do |nutrition, index| %>
@@ -38,8 +40,11 @@
       </div>
     <% end %>
   </div>
-  <%= button_tag "Add More Nutritions", id: "add-nutritions-btn" %>
+ <span id ="add-nutritions-btn" class="cursor-pointer bg-sky-500 p-2 mt-1 w-[10%] rounded-lg mb-10 text-center">ADD NUTRITION</span>
  </div>
+ </div>
+
+
     <div class="mb-4">
       <%= form.submit class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
     </div>
@@ -116,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
   addDirectionBtn.addEventListener('click', (event) => {
     event.preventDefault();
     const newDirectionField = document.createElement('div');
-    newDirectionField.innerHTML = `<input type="text" name="meal[meals_directions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">`;
+    newDirectionField.innerHTML = `<input type="text" name="meal[meals_directions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4">`;
     directionsContainer.appendChild(newDirectionField);
     directionIndex++;
   });
@@ -124,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
   addNutritionsBtn.addEventListener('click', (event) => {
     event.preventDefault();
     const newNutritionField = document.createElement('div');
-    newNutritionField.innerHTML = `<input type="text" name="meal[meals_nutritions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">`;
+    newNutritionField.innerHTML = `<input type="text" name="meal[meals_nutritions][]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4">`;
     nutritionsContainer.appendChild(newNutritionField);
     nutritionIndex++;
   });
