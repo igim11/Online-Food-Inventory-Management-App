@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_02_08_140809) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,9 +27,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_08_140809) do
   create_table "meals", force: :cascade do |t|
     t.string "meals_name"
     t.text "meals_description"
-    t.text "meals_directions"
-    t.text "meals_nutritions"
     t.integer "meals_price"
+    t.text "meals_directions", default: [], array: true
+    t.text "meals_nutritions", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
@@ -78,8 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_08_140809) do
   end
 
   add_foreign_key "ingredients", "meals"
-  add_foreign_key "stocks", "users"
   add_foreign_key "order_items", "meals"
   add_foreign_key "order_items", "orders"
-
+  add_foreign_key "stocks", "users"
 end

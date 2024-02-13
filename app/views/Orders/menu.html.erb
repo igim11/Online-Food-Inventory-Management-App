@@ -12,11 +12,8 @@
     </div>
   <% end %>
 
-  <% total_bill = 0 %>
+
   <% @meals.each do |meal| %>
-    <% order_item = @order.order_items.find_by(meal_id: meal.id) %>
-    <% total_cost = meal.meals_price * (order_item ? order_item.quantity : 0) %>
-    <% total_bill += total_cost %>
     <div class="flex justify-between items-center mb-4">
       <div class="meal-details">
         <h4 class="font-bold"><%= meal.meals_name %></h4>
@@ -30,7 +27,7 @@
           <%= order_item_fields.number_field :quantity, min: 0, class: "form-input" %>
         <% end %>
       </div>
-      <div>Total Cost: <%= total_cost %></div>
+      <div>Total Cost:</div>
     </div>
   <% end %>
 
@@ -39,7 +36,7 @@
   </div>
   
   <div class="mb-4">
-    Total Bill: <%= total_bill %>
+    Total Bill:
   </div>
   
   <%= form.submit "Place Order", class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" %>
