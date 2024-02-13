@@ -3,14 +3,15 @@
   before_action :authenticate_user!
 
   def add_meals_fromAPI
-    
+
     @meal = current_user.meals.new(add_meals_fromapi)
 
     if @meal.save
       create_ingredients(params[:ingredients], @meal.id)
-      render json: { message: "Meal added successfully", meal: @meal }, status: :created
+      create_stocks(params[:stocks], current_user.id)
+      redirect_to 
     else
-      render json: { error: "Failed to add meal" }, status: :unprocessable_entity
+
     end
   end
 
@@ -66,6 +67,19 @@
           ingredients_name: ingredient_params[:ingredients_name],
           quantity: ingredient_params[:quantity],
           unit: ingredient_params[:unit]
+        )
+      end
+    end
+
+    def create_stocks(create_stocks_params, user_id)
+      create_stocks_params.each do |stocks_params|
+        next if stocks_params[:ingredients_name].blank? || stocks_params[:quantity].blank? || stocks_params[:unit].blank?
+
+        Ingredient.create(
+          user_id: current_user.id,
+          ingredients_name: stocks_params[:ingredients_name],
+          quantity: stocks_params[:quantity],
+          unit: stocks_params[:unit]
         )
       end
     end
