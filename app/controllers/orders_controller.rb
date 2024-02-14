@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
             format.json { render json: @order.errors, status: :unprocessable_entity }
           end
         end
-    end  
+    end 
 
     private
 
