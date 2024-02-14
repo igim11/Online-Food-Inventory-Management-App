@@ -60,12 +60,19 @@
     def create_ingredients(ingredients_params, meal_id)
       ingredients_params.each do |ingredient_params|
         next if ingredient_params[:ingredients_name].blank? || ingredient_params[:quantity].blank? || ingredient_params[:unit].blank?
-
-        Ingredient.create(
+    
+        ingredient = Ingredient.create(
           meal_id: meal_id,
           ingredients_name: ingredient_params[:ingredients_name],
           quantity: ingredient_params[:quantity],
           unit: ingredient_params[:unit]
+        )
+    
+        Stock.create(
+          user_id: current_user.id,
+          quantity: 0,
+          ingredients_name: ingredient.ingredients_name,
+          unit: ingredient.unit
         )
       end
     end
