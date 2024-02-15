@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :configure_sign_up_params, only: [:create]
+  # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -11,11 +11,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    if params[:user][:admin] == '1' && params[:user][:admin_passcode] != '123456'
-      flash[:notice] = 'Incorrect admin passcode.'
-      redirect_to new_user_registration_path and return
-    end
-
     super
   end
 
@@ -46,9 +41,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:admin, :admin_passcode])
-  end
+  # def configure_sign_up_params
+  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:admin, :admin_passcode])
+  # end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params

@@ -1,5 +1,5 @@
 <div class="container mx-auto">
-  <h1 class="text-3xl font-bold mb-8">ADD New Meal</h1>
+  <h1 class="text-3xl font-bold mb-4 mt-4">Add a meal</h1>
 
  <div class="h-96 w-full overflow-auto">
    <%= form_with model: @meal, url: meals_path do |form| %>
@@ -28,7 +28,7 @@
       </div>
     <% end %>
   </div>
-   <span id ="add-direction-btn" class="cursor-pointer bg-sky-500 p-2 mt-1 w-[10%] rounded-lg mb-10 text-center">ADD DIRECTION</span>
+   <span id ="add-direction-btn" class="text-red-400 hover:text-red-700 cursor-pointer">+Add Direction</span>
 </div>
  <div class="grid">
    <div id="nutritions">
@@ -40,19 +40,19 @@
       </div>
     <% end %>
   </div>
- <span id ="add-nutritions-btn" class="cursor-pointer bg-sky-500 p-2 mt-1 w-[10%] rounded-lg mb-10 text-center">ADD NUTRITION</span>
+ <span id ="add-nutritions-btn" class="text-red-400 hover:text-red-700 cursor-pointer">+Add Nutrition</span>
  </div>
  </div>
 
 
     <div class="mb-4">
-      <%= form.submit class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+      <%= form.submit class: "bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer mt-2" %>
     </div>
   <% end %>
 
 <div class="all_meals h-96 overflow-auto">
-   <input type="text" id="SearchInput" placeholder="Search by Meals Name" class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-64">
-      <button onclick="searchmealsname()" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Search</button>
+   <input type="text" id="SearchInput" placeholder="Search by Meal's Name" class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-64">
+      <button onclick="searchmealsname()" class="ml-2 px-4 py-2 bg-red-400 text-white rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Search</button>
   <table id="mealstable" class="min-w-full divide-y divide-gray-200">
     <thead>
       <tr>
