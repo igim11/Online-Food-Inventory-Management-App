@@ -7,6 +7,7 @@ class Order < ApplicationRecord
 
     validate :at_least_one_meal_ordered, on: :create
     validate :enough_ingredients_in_stock, on: :create
+    after_create :update_stock_quantities
 
     private
 
@@ -38,4 +39,16 @@ class Order < ApplicationRecord
       
       true
     end
-end
+
+    def update_stock_quantities
+      order_items.each do |order_item|
+        meal = order_item.meal
+        required_ingredients = meal.ingredients
+    
+        required_ingredients.each do |ingredient|
+          stock = Stock.find_by(ingredients_name: ingredient.ingredients_name)
+          stock.update(quantity: stock.quantity - (ingredient.quantity * order_item.quantity))
+        end
+      end
+    end
+end 

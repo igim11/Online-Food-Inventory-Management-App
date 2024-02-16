@@ -14,8 +14,6 @@
     end
   end
 
-
-
     def all_meals
         @all_meals = current_user.meals
     end
