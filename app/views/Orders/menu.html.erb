@@ -12,39 +12,40 @@
         </ul>
       </div>
     <% end %>
-
-    <table class="min-w-full mb-4">
-      <thead>
-        <tr>
-          <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Meal</th>
-          <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Price</th>
-          <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-          <th class="px-6 py-3 bg-gray-50"></th> <!-- Empty th for the Total Cost column -->
-        </tr>
-      </thead>
-      <tbody>
-        <% @meals.each do |meal| %>
+    <turbo-frame id="total-cost-frame">
+      <table class="min-w-full mb-4" data-controller="bill">
+        <thead>
           <tr>
-            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"><%= meal.meals_name %></td>
-            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"><%= meal.meals_price %></td>
-            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-              <div class="quantity-input">
-                <%= form.fields_for :order_items, OrderItem.new do |order_item_fields| %>
-                  <%= order_item_fields.hidden_field :meal_id, value: meal.id %>
-                  <%= order_item_fields.hidden_field :order_id, value: @order.id %>
-                  <%= order_item_fields.number_field :quantity, min: 0, class: "form-input" %>
-                <% end %>
-              </div>
-            </td>
-            <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-              Total Cost: <!-- You can calculate and display the total cost here -->
-            </td>
+            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Meal</th>
+            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Price</th>
+            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+            <th class="px-6 py-3 bg-gray-50"></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @meals.each do |meal| %>
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"><%= meal.meals_name %></td>
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900" data-bill-target="mealPrice"><%= number_to_currency(meal.meals_price, precision: 2) %></td>
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                <div class="quantity-input">
+                  <%= form.fields_for :order_items, OrderItem.new do |order_item_fields| %>
+                    <%= order_item_fields.hidden_field :meal_id, value: meal.id %>
+                    <%= order_item_fields.hidden_field :order_id, value: @order.id %>
+                    <%= order_item_fields.number_field :quantity, min: 0, class: "form-input", "data-bill-target": "quantity", "data-action": "input->bill.updateTotalCost" %>
+                  <% end %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                <span data-bill-target="totalCost">Total Cost:</span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </turbo-frame>
 
-    <div class="mb-4 flex justify-end mr-6">
+    <div class="mb-4 flex justify-end mr-6 font-medium text-md">
       <span>Total Bill:</span>
     </div>
 
@@ -52,3 +53,4 @@
     <%= form.submit "Place Order", class: "bg-red-400 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer" %>
   <% end %>
 </div>
+ 

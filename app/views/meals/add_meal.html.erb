@@ -67,7 +67,7 @@
         <tr>
           <td class="px-6 py-4 whitespace-nowrap"><%= meal.meals_name %></td>
           <td class="px-6 py-4 whitespace-nowrap"><%= meal.meals_description %></td>
-          <td class="px-6 py-4 whitespace-nowrap"><%= meal.meals_price %></td>
+          <td class="px-6 py-4 whitespace-nowrap"><%= number_to_currency(meal.meals_price, precision: 2) %></td>
           <td class="px-6 py-4 whitespace-nowrap">
             <%= link_to add_ingredients_path(meal_id: meal.id) do%>
             <box-icon name='add-to-queue' animation='tada' ></box-icon>
