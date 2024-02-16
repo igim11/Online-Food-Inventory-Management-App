@@ -19,8 +19,16 @@
 
 <div class="meals-info">
   <% @meals_info.each do |info|%>
-  <%= info.meals_directions%>
-    <%= info.meals_nutritions%>
+  <div class="mx-auto p-5">
+  <% info.meals_directions.each do |direction| %>
+  <%= direction %>
+  <% end %>
+  </div>
+  <div class="mt-10">
+      <% info.meals_nutritions.each do |nutritions| %>
+  <%= nutritions %>
+  <% end %>
+  </div>
   <%end%>
 </div>
 
