@@ -8,8 +8,9 @@
   <button class="text-sm m-4 bg-red-400 ml-1 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md"><%= link_to "Add Meal Manually", add_meal_path%></button>
 </div>
 
+<% if @meal_list["meals"].present? %>
 <div class="grid lg:grid-cols-3">
-  <% @list["meals"].each do |meal| %>
+  <% @meal_list["meals"].each do |meal| %>
     <div class="card meal bg-white rounded overflow-hidden shadow-md m-4 hover:shadow-lg">
       <div>
         <img class="w-full h-32 sm:h-48 object-cover" src="<%= meal["strMealThumb"] %>" alt="">
@@ -36,6 +37,14 @@
     </div>
   <% end %>
 </div>
+<% else %>
+  <p>No meals found</p>
+<% end %>
+
+
+
+
+
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {

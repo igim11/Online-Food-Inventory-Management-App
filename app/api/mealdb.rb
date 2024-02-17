@@ -4,7 +4,7 @@ require 'httparty'
 class Mealdb
   BASE_URL = "https://www.themealdb.com/api/json/v1/1/"
   SEARCH_MEAL = "#{BASE_URL}list.php?c=list"
-  MEAL_BYLETTER = "https://www.themealdb.com/api/json/v1/1/search.php?f=a"
+  MEAL_BYLETTER = "https://www.themealdb.com/api/json/v1/1/search.php?f=b"
 
   def search_mealbyName(meal_name)
     meal_name = meal_name&.gsub(' ', '%20')

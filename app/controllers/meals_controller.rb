@@ -1,7 +1,6 @@
   require_relative '../api/mealdb'
   class MealsController < ApplicationController
   before_action :authenticate_user!
-
   def add_meals_fromAPI
 
     @meal = current_user.meals.new(add_meals_fromapi)
@@ -9,7 +8,7 @@
     if @meal.save
       create_ingredients(params[:ingredients], @meal.id)
       create_stocks(params[:stocks], current_user.id)
-      redirect_to 
+      redirect_to
     else
 
     end
@@ -30,7 +29,17 @@
       if @meal_name.present?
         mealdb = Mealdb.new
         @meal_list = mealdb.search_mealbyName(@meal_name)
+        render json: @meal_list
+      else
+        flash[:error] = "Search field cannot be empty"
+      end
+    end
 
+    def search_results
+      @meal_name = params[:search]
+      if @meal_name.present?
+        mealdb = Mealdb.new
+        @meal_list = mealdb.search_mealbyName(@meal_name)
       else
         flash[:error] = "Search field cannot be empty"
       end
@@ -54,19 +63,41 @@
       end
     end
 
+    def edit
+      edit_meal
+    end
+
+    def destroy
+      @meal = Meal.find(params[:id])
+      @meal.ingredients.destroy_all
+      @meal.destroy
+      redirect_to add_meal_path
+    end
+
+    def update
+        @meal = Meal.find(params[:id])
+        if @meal.update(update_meal_params)
+          redirect_to @meal, notice: 'Meal was successfully updated.'
+        else
+          render :edit
+        end
+    end
+
+
+
     private
 
     def create_ingredients(ingredients_params, meal_id)
       ingredients_params.each do |ingredient_params|
         next if ingredient_params[:ingredients_name].blank? || ingredient_params[:quantity].blank? || ingredient_params[:unit].blank?
-    
+
         ingredient = Ingredient.create(
           meal_id: meal_id,
           ingredients_name: ingredient_params[:ingredients_name],
           quantity: ingredient_params[:quantity],
           unit: ingredient_params[:unit]
         )
-    
+
         Stock.create(
           user_id: current_user.id,
           quantity: 0,
@@ -89,12 +120,21 @@
       end
     end
 
+    def edit_meal
+      @meal = Meal.find(params[:id])
+    end
+
     def add_meals_fromapi
       params.require(:meal).permit!
+    end
+
+    def update_meal_params
+      params.require(:meal).permit(:meals_name, :meals_description, :meals_price)
     end
 
     def meal_params
       params.require(:meal).permit(:meals_name, :meals_description, :meals_price,  meals_directions: [], meals_nutritions: [] )
     end
 
-  end
+
+end
