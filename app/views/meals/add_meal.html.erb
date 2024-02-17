@@ -72,24 +72,22 @@
             <%= link_to add_ingredients_path(meal_id: meal.id) do%>
             <box-icon name='add-to-queue' animation='tada' ></box-icon>
             <%end%>
-            <box-icon name='edit' animation='tada' ></box-icon>
-            <box-icon name='trash-alt' type='solid' animation='tada' ></box-icon>
+
+            <%= link_to edit_meals_path(id: meal.id) do%>
+               <box-icon name='edit' animation='tada' ></box-icon>
+            <%end%> 
+          <%= form_with(model: meal, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'inline-block') do |form| %>
+            <%= form.button type: :submit, class: 'text-red-500' do %>
+              <box-icon name='trash-alt' type='solid' animation='tada'></box-icon>
+            <% end %>
+          <% end %>
             </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-
-
-
-
 </div>
-
-
-
-
-
 <script>
   function searchmealsname() {
     let input, filter, table, tr, td, i, txtValue;
