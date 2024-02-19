@@ -70,6 +70,7 @@
     def destroy
       @meal = Meal.find(params[:id])
       @meal.ingredients.destroy_all
+      @meal.order_items.destroy_all
       @meal.destroy
       redirect_to add_meal_path
     end
