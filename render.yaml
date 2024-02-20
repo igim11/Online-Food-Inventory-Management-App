@@ -1,7 +1,7 @@
 databases:
   - name: online_restaurant_inventory_management_app
     databaseName: online_restaurant_inventory_management_app
-    user: online_restaurant_inventory_management_user
+    user: online_restaurant_inventory_management_app
     plan: free
 
 services:
