@@ -1,7 +1,7 @@
 databases:
   - name: onlinefood_app
     databaseName: onlinefood_app
-    user: onlinefood_app_user
+    user: onlinefood_app
     plan: free
 
 services:
