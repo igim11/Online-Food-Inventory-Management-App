@@ -1,13 +1,13 @@
   require_relative '../api/mealdb'
   class MealsController < ApplicationController
   before_action :authenticate_user!
-
   def add_meals_fromAPI
 
     @meal = current_user.meals.new(add_meals_fromapi)
 
     if @meal.save
       create_ingredients(params[:ingredients], @meal.id)
+      create_stocks(params[:stocks], current_user.id)
       redirect_to
     else
 
@@ -99,28 +99,27 @@
           unit: ingredient_params[:unit]
         )
 
-        create_stocks(ingredient)
-      end
-    end
-
-    def create_stocks(ingredient)
-      # Find the corresponding stock, if it exists
-      stock = Stock.find_by(ingredients_name: ingredient.ingredients_name, unit: ingredient.unit, user_id: current_user.id)
-
-      if stock.present?
-        # Update existing stock
-        stock.update(quantity: stock.quantity + ingredient.quantity, unit: ingredient.unit)
-      else
-        # Create new stock
         Stock.create(
           user_id: current_user.id,
+          quantity: 0,
           ingredients_name: ingredient.ingredients_name,
-          quantity: ingredient.quantity,
           unit: ingredient.unit
         )
       end
     end
 
+    def create_stocks(create_stocks_params, user_id)
+      create_stocks_params.each do |stocks_params|
+        next if stocks_params[:ingredients_name].blank? || stocks_params[:quantity].blank? || stocks_params[:unit].blank?
+
+        Ingredient.create(
+          user_id: current_user.id,
+          ingredients_name: stocks_params[:ingredients_name],
+          quantity: stocks_params[:quantity],
+          unit: stocks_params[:unit]
+        )
+      end
+    end
 
     def edit_meal
       @meal = Meal.find(params[:id])
