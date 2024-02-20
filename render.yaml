@@ -1,0 +1,23 @@
+databases:
+  - name: online_restaurant_inventory_management_app
+    databaseName: online_restaurant_inventory_management_app
+    user: online_restaurant_inventory_management_user
+    plan: free
+
+services:
+  - type: web
+    name: Online-Food-Inventory-Management-App
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: online_restaurant_inventory_management_app
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2 # sensible default
