@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
 
     def menu
         @order = Order.new
-        @meals = Meal.all
+        @meals = current_user.meals.all
         @order_item = @order.order_items.build
     end
 
