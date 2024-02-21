@@ -78,7 +78,7 @@
     def update
         @meal = Meal.find(params[:id])
         if @meal.update(update_meal_params)
-          redirect_to @meal, notice: 'Meal was successfully updated.'
+          redirect_to add_meal_path, notice: 'Meal was successfully updated.'
         else
           render :edit
         end
