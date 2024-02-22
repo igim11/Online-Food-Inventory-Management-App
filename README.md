@@ -3,6 +3,9 @@
 ## Introduction
 This repository contains the source code for an Online Food Inventory Management Application. The application is built using Ruby on Rails framework and facilitates managing meals, ingredients, orders, stocks, and integrates with a third-party API for meal searching.
 
+## LIVE SERVER
+https://onlinefood-app.onrender.com/users/sign_in
+
 ## Controller Classes
 
 ### IngredientsController
